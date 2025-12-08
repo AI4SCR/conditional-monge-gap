@@ -2,12 +2,14 @@ name: Publish to PyPI
 
 on:
   release:
-    types: [created]
+    types: [published]
 
 jobs:
   build-and-publish:
-    runs-on: ubuntu-latest
+    # Only run for non-prerelease releases
+    if: ${{ !github.event.release.prerelease }}
 
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
