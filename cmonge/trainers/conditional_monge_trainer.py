@@ -149,10 +149,13 @@ class ConditionalMongeTrainer(AbstractTrainer):
                 else self.generate_batch(datamodule, "valid")
             )
 
+            self.key, step_key = jax.random.split(self.key)
+
             self.state_neural_net, grads, current_logs = self.step_fn(
                 self.state_neural_net,
                 grads=grads,
                 train_batch=train_batch,
+                dropout_key=step_key,
                 valid_batch=valid_batch,
                 is_logging_step=is_logging_step,
                 is_gradient_acc_step=is_gradient_acc_step,
@@ -176,14 +179,20 @@ class ConditionalMongeTrainer(AbstractTrainer):
             apply_fn: Callable,
             batch: Dict[str, jnp.ndarray],
             n_contexts: int,
+            dropout_key: Optional[jnp.ndarray] = None,
         ) -> Tuple[float, Dict[str, float]]:
             """Loss function."""
             # map samples with the fitted map
+            kwargs = {}
+            if dropout_key is not None:
+                kwargs = {"deterministic": False, "rngs": {"dropout": dropout_key}}
+
             mapped_samples = apply_fn(
                 {"params": params},
                 batch["source"],
                 batch["condition"],
                 n_contexts,
+                **kwargs
             )
 
             # compute the loss
@@ -200,11 +209,12 @@ class ConditionalMongeTrainer(AbstractTrainer):
 
             return val_tot_loss, loss_logs
 
-        @functools.partial(jax.jit, static_argnums=[4, 5, 6, 7])
+        @functools.partial(jax.jit, static_argnums=[5, 6, 7, 8])
         def step_fn(
             state_neural_net: train_state.TrainState,
             grads: frozen_dict.FrozenDict,
             train_batch: Dict[str, jnp.ndarray],
+            dropout_key: jnp.ndarray,
             valid_batch: Optional[Dict[str, jnp.ndarray]] = None,
             is_logging_step: bool = False,
             is_gradient_acc_step: bool = False,
@@ -219,6 +229,7 @@ class ConditionalMongeTrainer(AbstractTrainer):
                 state_neural_net.apply_fn,
                 train_batch,
                 n_train_contexts,
+                dropout_key,
             )
             # Accumulate gradients
             grads = tree_map(lambda g, step_g: g + step_g, grads, step_grads)
