@@ -324,7 +324,11 @@ class ConditionalPerturbationNetwork(BasePotential):
 
     @nn.compact
     def __call__(
-        self, x: jnp.ndarray, c: jnp.ndarray, num_contexts: int = 2, deterministic: bool = True
+        self,
+        x: jnp.ndarray,
+        c: jnp.ndarray,
+        num_contexts: int = 2,
+        deterministic: bool = True,
     ) -> jnp.ndarray:  # noqa: D102
         """
         Args:
@@ -387,25 +391,37 @@ class ConditionalPerturbationNetwork(BasePotential):
                 stacked_embeddings = jnp.stack(embeddings, axis=1)  # (Batch, N, Dim)
 
                 # Input Dropout
-                stacked_embeddings = nn.Dropout(rate=self.dropout_rate, deterministic=deterministic)(stacked_embeddings)
+                stacked_embeddings = nn.Dropout(
+                    rate=self.dropout_rate, deterministic=deterministic
+                )(stacked_embeddings)
 
                 # Multi-Head Attention Scores
-                att_layer = nn.Dense(self.num_heads, use_bias=True, name="AttentionScores")
+                att_layer = nn.Dense(
+                    self.num_heads, use_bias=True, name="AttentionScores"
+                )
                 scores = att_layer(stacked_embeddings)  # (Batch, N, Heads)
                 weights = jax.nn.softmax(scores, axis=1)
 
                 # Attention Weights Dropout
-                weights = nn.Dropout(rate=self.dropout_rate, deterministic=deterministic)(weights)
+                weights = nn.Dropout(
+                    rate=self.dropout_rate, deterministic=deterministic
+                )(weights)
 
                 # Weighted Pooling: (B, N, D), (B, N, H) -> (B, H, D)
-                weighted_sum = jnp.einsum('bnd,bnh->bhd', stacked_embeddings, weights)
+                weighted_sum = jnp.einsum("bnd,bnh->bhd", stacked_embeddings, weights)
 
                 # Flatten and Project
-                cond_embedding = weighted_sum.reshape(weighted_sum.shape[0], -1)  # (B, H*D)
-                cond_embedding = nn.Dense(dim_cond_map[0], use_bias=True, name="AttentionOutput")(cond_embedding)
+                cond_embedding = weighted_sum.reshape(
+                    weighted_sum.shape[0], -1
+                )  # (B, H*D)
+                cond_embedding = nn.Dense(
+                    dim_cond_map[0], use_bias=True, name="AttentionOutput"
+                )(cond_embedding)
 
                 # Output Dropout
-                cond_embedding = nn.Dropout(rate=self.dropout_rate, deterministic=deterministic)(cond_embedding)
+                cond_embedding = nn.Dropout(
+                    rate=self.dropout_rate, deterministic=deterministic
+                )(cond_embedding)
             else:
                 # Average along stacked dimension (alternatives like summing are possible)
                 cond_embedding = jnp.mean(jnp.stack(embeddings), axis=0)
@@ -434,7 +450,7 @@ class ConditionalPerturbationNetwork(BasePotential):
 
         # Split rng for dropout keys during init
         rng, rng_dropout = jax.random.split(rng)
-        init_rngs = {'params': rng, 'dropout': rng_dropout}
+        init_rngs = {"params": rng, "dropout": rng_dropout}
 
         params = self.init(init_rngs, x=x, c=c)["params"]
         return PotentialTrainState.create(

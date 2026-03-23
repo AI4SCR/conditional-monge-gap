@@ -192,7 +192,7 @@ class ConditionalMongeTrainer(AbstractTrainer):
                 batch["source"],
                 batch["condition"],
                 n_contexts,
-                **kwargs
+                **kwargs,
             )
 
             # compute the loss
