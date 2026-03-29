@@ -1,4 +1,5 @@
 name: CI
+
 on:
   push:
     branches: [main]
@@ -10,27 +11,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
-      - name: Set up Python 3.10
-        uses: actions/setup-python@v4
+      - uses: actions/checkout@v6
+
+      - name: Install uv and Python 3.10
+        uses: astral-sh/setup-uv@v7
         with:
           python-version: "3.10"
-      - name: Install dependencies
-        run: |
-         pip install --upgrade pip
-         pip install poetry
-         poetry install -v
-      
+          enable-cache: true
+
+      - name: Sync dependencies
+        run: uv sync --locked
+
       - name: Run isort
-        run: poetry run isort --profile=black --check-only .
+        run: uv run isort --profile=black --check-only .
 
       - name: Run black
-        run: poetry run black --check .
+        run: uv run black --check .
 
       - name: Check formatting
-        run: |
-         poetry run ruff check .
+        run: uv run ruff check .
 
       - name: Run tests
-        run: |
-         poetry run pytest -sv cmonge
+        run: uv run pytest -sv cmonge
