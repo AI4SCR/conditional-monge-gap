@@ -21,7 +21,7 @@
 An extension of the [Monge Gap](https://proceedings.mlr.press/v202/uscidda23a.html), an approach to estimate transport maps conditionally on arbitrary context vectors. It is based on a two-step training procedure combining an encoder-decoder architecture with an OT estimator. The model is applied to [4i](https://pubmed.ncbi.nlm.nih.gov/30072512/) and [scRNA-seq](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7289078/) datasets.
 
 ## Systems and software requirements
-Software package requirements and version information can be found in `requirements.txt` and/or the `pyproject.toml`. This package has been tested on Python versions 3.10 and 3.11. 
+Software package requirements and version information are defined in `pyproject.toml` and locked in `uv.lock`. This package has been tested on Python versions 3.10 and 3.11.
 Hardware requirements enough memory (RAM) to process the data and batches. GPU is not needed but does accelerate computation. This software has been tested on HPCs and local machines (iOS). 
 
 ## Installation from PyPI
@@ -33,18 +33,17 @@ pip install cmonge
 which should take about two minutes on a laptop.
 
 ## Development setup & installation
-The package environment is managed by [poetry](https://python-poetry.org/docs/managing-environments/). 
+The package environment is managed by [uv](https://docs.astral.sh/uv/).
 ```sh
-pip install poetry
-git clone git@github.com:AI4SCR/conditional-monge.git
-cd cmonge
-poetry install -v
+curl -LsSf https://astral.sh/uv/install.sh | sh
+git clone https://github.com/AI4SCR/conditional-monge.git
+cd conditional-monge
+uv sync --frozen
 ```
 
 If the installation was successful you can run the tests using pytest
 ```sh
-poetry shell # activate env
-pytest
+uv run pytest
 ```
 
 ## Data
