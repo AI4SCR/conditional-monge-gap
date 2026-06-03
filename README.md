@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/AI4SCR/conditional-monge/actions/workflows/ci.yml/badge.svg)](https://github.com/AI4SCR/conditional-monge/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![DOI](https://zenodo.org/badge/777971163.svg)](https://doi.org/10.5281/zenodo.17854337)
+[![DOI: Nature Machine Intelligence](https://img.shields.io/badge/DOI-Nature%20Machine%20Intelligence-blue.svg)](https://doi.org/10.1038/s42256-026-01242-8)
 
 ## Contents
 - [Overview](#overview)
@@ -106,11 +106,14 @@ git checkout cmonge_checkpoint_loading
 ## Citation
 If you use the package, please cite:
 ```bib
-@article{driessen2025towards,
-  title={Towards generalizable single-cell perturbation modeling via the Conditional Monge Gap},
-  author={Driessen, Alice and Harsanyi, Benedek and Rapsomaniki, Marianna and Born, Jannis},
-  journal={arXiv preprint arXiv:2504.08328},
-  note={Preliminary version at ICLR 2024 Workshop on Machine Learning for Genomics Explorations}
-  year={2025}
+@article{driessen2026conditional,
+  author  = {Driessen, Alice and Rajwade, Dhruva Abhijit and Harsanyi, Benedek and Rapsomaniki, Marianna and Born, Jannis},
+  title   = {Conditional Monge Gap enables generalizable single-cell perturbation modelling},
+  journal = {Nature Machine Intelligence},
+  year    = {2026},
+  date    = {2026-06-01},
+  issn    = {2522-5839},
+  doi     = {10.1038/s42256-026-01242-8},
+  url     = {https://doi.org/10.1038/s42256-026-01242-8}
 }
 ```
