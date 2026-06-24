@@ -6,9 +6,10 @@
 
 [Our paper](https://ibm.biz/conditional-monge-gap) appeared on the cover of [Nature Machine Intelligence, Volume 8, Issue 6](https://www.nature.com/natmachintell/volumes/8/issues/6) 🚀
 
-<img align="right" src="assets/nature-machine-intelligence-cover-vol8-issue6.webp" alt="Nature Machine Intelligence Volume 8 Issue 6 cover" width="220" style="margin-top: 8px;">
+<img align="right" hspace="24" src="assets/nature-machine-intelligence-cover-vol8-issue6.jpg" alt="Nature Machine Intelligence Volume 8 Issue 6 cover" width="220">
 
 ## Contents
+
 - [Overview](#overview)
 - [Requirements](#systems-and-software-requirements)
 - [Installation](#installation-from-pypi)
