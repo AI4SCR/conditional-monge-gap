@@ -6,9 +6,11 @@
 
 [Our paper](https://ibm.biz/conditional-monge-gap) appeared on the cover of [Nature Machine Intelligence, Volume 8, Issue 6](https://www.nature.com/natmachintell/volumes/8/issues/6) 🚀
 
+[An AI-generated podcast 🎧](https://podcasts.apple.com/us/podcast/1298-conditional-gap-for-single-cell-perturbation-modelling/id1827948841?i=1000777336596&l=fr-FR) also covers our paper 🚀 We endorse it as an accessible way to understand the gist of our work!
+
 <img align="right" hspace="24" src="assets/nature-machine-intelligence-cover-vol8-issue6.jpg" alt="Nature Machine Intelligence Volume 8 Issue 6 cover" width="220">
 
-## Contents
+### Contents
 
 - [Overview](#overview)
 - [Requirements](#systems-and-software-requirements)
@@ -117,6 +119,8 @@ If you use the package, please cite:
   author  = {Driessen, Alice and Rajwade, Dhruva Abhijit and Harsanyi, Benedek and Rapsomaniki, Marianna and Born, Jannis},
   title   = {Conditional Monge Gap enables generalizable single-cell perturbation modelling},
   journal = {Nature Machine Intelligence},
+  volume  = {8},
+  number  = {6},
   year    = {2026},
   date    = {2026-06-01},
   issn    = {2522-5839},
